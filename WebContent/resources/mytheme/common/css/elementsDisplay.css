@@ -1,0 +1,166 @@
+/*----- Tabs -----*/
+.tabs {
+	width: 100%;
+	display: inline-block;
+}
+
+/*----- Tab Links -----*/
+/* Clearfix */
+.tab-links:after {
+	display: block;
+	clear: both;
+	content: '';
+}
+
+.tab-links li {
+	margin: 0px 5px;
+	float: left;
+	list-style: none;
+}
+
+.tab-links a {
+	padding: 9px 11px;
+	display: inline-block;
+	border-radius: 3px 0px 0px 0px;
+	background: #7FB5DA;
+	font-size: 11px;
+	font-weight: 600;
+	color: #4c4c4c;
+	transition: all linear 0.15s;
+}
+
+.tab-links a:hover {
+	background: #a7cce5;
+	text-decoration: none;
+}
+
+li.active a,li.active a:hover {
+	background: #fff;
+	color: #4c4c4c;
+}
+
+/*----- Content of Tabs -----*/
+.tab-content {
+	padding: 15px;
+	border-radius: 3px;
+	box-shadow: -1px 1px 1px rgba(0, 0, 0, 0.15);
+	background: #fff;
+}
+
+.tab {
+	display: none;
+}
+
+.tab.active {
+	display: block;
+}
+
+<
+style type ="text/css">.rowHideShow {
+	vertical-align: top;
+	height: auto !important;
+}
+
+.listHideShow {
+	display: none;
+	text-align: justify;
+	color: black;
+}
+
+.showHideShow {
+	display: none;
+}
+
+.hideHideShow:target+.showHideShow {
+	display: inline;
+}
+
+.hideHideShow:target {
+	display: none;
+}
+
+.hideHideShow:target                                     ~ .listHideShow
+	{
+	display: inline;
+}
+
+@media print {
+	.hideHideShow,.showHideShow {
+		display: none;
+	}
+}
+
+table {
+	width: 80%;
+	border: 1px solid #d4d4d4;
+	margin: 1em 25px;
+	text-align: left;
+}
+
+th {
+	font-weight: bold;
+	background-color: 10B77A;
+	border-bottom: 1px solid #d4d4d4;
+	color: #70c057
+}
+
+td,th {
+	padding: 4px 5px;
+	border: 1px solid #d4d4d4;
+}
+
+td {
+	text-align: justify;
+	color: black;
+}
+
+.odd { /* background-color: #def; */
+	
+}
+
+.odd td { /* border-bottom: 1px solid #cef; */
+	color: black;
+}
+
+* {
+	-webkit-user-select: none; /* Chrome all / Safari all */
+	-moz-user-select: none; /* Firefox all */
+	-ms-user-select: none; /* IE 10+ */
+	-o-user-select: none;
+	user-select: none;
+}
+
+.captionOrange,.captionBlack {
+	color: #fff;
+	font-size: 20px;
+	line-height: 30px;
+	text-align: center;
+	border-radius: 4px;
+}
+
+.captionOrange {
+	background: #EB5100;
+	background-color: rgba(235, 81, 0, 0.6);
+}
+
+.captionBlack {
+	font-size: 16px;
+	background: #000;
+	background-color: rgba(0, 0, 0, 0.4);
+}
+
+a.captionOrange,A.captionOrange:active,A.captionOrange:visited {
+	color: #ffffff;
+	text-decoration: none;
+}
+
+a.captionOrange:hover {
+	color: #eb5100;
+	text-decoration: underline;
+	background-color: #eeeeee;
+	background-color: rgba(238, 238, 238, 0.7);
+}
+
+.bricon {
+	background: url(< c : url value = "/resources/img/browser-icons.png"/ >);
+}

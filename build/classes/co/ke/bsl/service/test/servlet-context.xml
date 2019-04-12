@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+
+
+	<!-- DispatcherServlet Context: defines this servlet's request-processing 
+		infrastructure -->
+
+	<!-- Enables the Spring MVC @Controller programming model -->
+	<context:annotation-config />
+	<tx:annotation-driven transaction-manager="transactionManager" />
+	<beans:bean id="userDataDAO" class="co.ke.bsl.dao.UserDataDAOImpl">
+
+	</beans:bean>
+	
+	
+
+<beans:bean id="loadBean" class="co.ke.bsl.dao.GoogleDataLoader">
+
+	</beans:bean>
+	
+	<beans:bean id="accountDAO" class="co.ke.bsl.dao.AccountDAOImpl">
+
+	</beans:bean>
+
+	<beans:bean id="userDAO" class="co.ke.bsl.dao.UserDAOImpl">
+
+	</beans:bean>
+	<beans:bean id="roleDAO" class="co.ke.bsl.dao.RoleDAOImpl">
+	    
+	    
+	</beans:bean>
+	<beans:bean id="employeeDAO" class="co.ke.bsl.dao.EmployeeDAO">
+	    
+	    
+	    
+	</beans:bean>
+	<beans:bean id="attendanceDAO" class="co.ke.bsl.dao.AttendanceDAO">
+	    
+	    </beans:bean>
+	<beans:bean id="regionDAO" class="co.ke.bsl.dao.RegionDAO">
+	    
+	      </beans:bean>
+	<beans:bean id="locationDAO" class="co.ke.bsl.dao.LocationDAO">
+	    
+	        </beans:bean>
+	<beans:bean id="stationDAO" class="co.ke.bsl.dao.StationDAO">
+
+	</beans:bean>
+	
+	<beans:bean id="genderDAO" class="co.ke.bsl.dao.GenderDAO">
+
+	</beans:bean>
+
+	<beans:bean id="roleService" class="co.ke.bsl.business.service.RoleServiceImpl">
+	</beans:bean>
+
+
+	<beans:bean id="customUserDetailsService"
+		class="co.ke.bsl.business.service.CustomUserDetailsService">
+	</beans:bean>
+	
+	
+	<beans:bean id="attendanceService"
+		class="co.ke.bsl.business.service.AttendanceService">
+	</beans:bean>
+	
+	
+	
+	<beans:bean id="employeeService"
+		class="co.ke.bsl.business.service.EmployeeService">
+	</beans:bean>
+	
+	
+	<beans:bean id="regionService"
+		class="co.ke.bsl.business.service.RegionService">
+	</beans:bean>
+
+	
+		<beans:bean id="stationService"
+		class="co.ke.bsl.business.service.StationService">
+	</beans:bean>
+	
+			<beans:bean id="locationService"
+		class="co.ke.bsl.business.service.LocationService">
+	</beans:bean>
+	<beans:bean id="schoolSlotDAO" class="co.ke.bsl.dao.SchoolSlotDAOImpl">
+
+	</beans:bean>
+	<beans:bean id="addressDAO" class="co.ke.bsl.dao.AddressDAOImpl">
+		<beans:property name="sessionFactory" ref="sessionFactory" />
+	</beans:bean>
+	<context:component-scan base-package="co.ke.bsl.orm.entities" />
+	<annotation-driven />
+	<beans:bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close" p:driverClassName="${jdbc.driverClassName}"
+		p:url="${jdbc.databaseurl}" p:username="${jdbc.username}" p:password="${jdbc.password}" />
+
+	<beans:bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<beans:property name="locations">
+			<beans:list>
+				<beans:value>classpath:jdbc.properties</beans:value>
+			</beans:list>
+		</beans:property>
+	</beans:bean>
+
+
+	<beans:bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+
+		<beans:property name="dataSource" ref="dataSource" />
+
+		<beans:property name="hibernateProperties">
+			<beans:props>
+				<beans:prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect
+				</beans:prop>
+				<beans:prop key="show_sql">true</beans:prop>
+				<beans:prop key="hibernate.hbm2ddl.auto">update</beans:prop>
+				<beans:prop key="hibernate.connection.driver_class">${jdbc.driverClassName}</beans:prop>
+			</beans:props>
+		</beans:property>
+		<beans:property name="packagesToScan" value="co.ke.bsl.orm.entities" />  <!-- recognized -->
+		<beans:property name="annotatedClasses">
+			<beans:list>
+				<beans:value>co.ke.bsl.orm.entities.Country
+				</beans:value>
+				<beans:value>co.ke.bsl.orm.entities.Address
+				</beans:value>
+				<beans:value>co.ke.bsl.orm.entities.UserData
+				</beans:value>
+				<beans:value>co.ke.bsl.orm.entities.SchoolSlot
+				</beans:value>
+				<beans:value>co.ke.bsl.orm.entities.AcademicYear
+				</beans:value>
+				<beans:value>co.ke.bsl.orm.entities.ExamResult
+				</beans:value>
+				<beans:value>co.ke.bsl.orm.entities.FeeStatement
+				</beans:value>
+				<beans:value>co.ke.bsl.orm.entities.Course
+				</beans:value>
+				<beans:value>co.ke.bsl.orm.entities.Officer
+				</beans:value>
+				<beans:value>co.ke.bsl.orm.entities.Attendance
+				</beans:value>
+				<beans:value>co.ke.bsl.orm.entities.User
+				</beans:value>
+				<beans:value>co.ke.bsl.orm.entities.Role
+				</beans:value>
+				<beans:value>co.ke.bsl.orm.entities.Account
+				</beans:value>
+
+				<beans:value>co.ke.bsl.orm.entities.Proffesional
+				</beans:value>
+			
+			</beans:list>
+		</beans:property>
+	</beans:bean>
+
+	<beans:bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<beans:property name="sessionFactory" ref="sessionFactory" />
+	</beans:bean>
+	<!-- <beans:bean id="transactionTemplate" class="org.springframework.transaction.support.TransactionTemplate"> 
+		<beans:property name="transactionManager" ref="transactionManager" /> </beans:bean> --><!-- Handles HTTP GET requests for /resources/** by efficiently serving 
+		up static resources in the ${webappRoot}/resources directory -->
+	<resources mapping="/resources/**" location="/resources/mytheme/" /><!-- 
+		Resolves views selected for rendering by @Controllers to .jsp resources in 
+		the /WEB-INF/views directory -->
+	<beans:bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<beans:property name="prefix" value="/WEB-INF/views/" />
+		<beans:property name="suffix" value=".jsp" />
+	</beans:bean>
+
+	<!-- <beans:bean class="org.springframework.web.servlet.view.XmlViewResolver" 
+		p:location="/WEB-INF/jasper-views.xml" p:order="0"> </beans:bean> -->
+
+
+	<beans:bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver"><!-- max upload size in bytes -->
+		<beans:property name="maxUploadSize" value="20971520" /><!-- 
+			20MB --><!-- 
+			max size of file in memory (in bytes) -->
+		<beans:property name="maxInMemorySize" value="1048576" /><!-- 
+			1MB -->
+	</beans:bean>
+	<beans:bean
+		class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<beans:property name="exceptionMappings">
+			<beans:props>
+				<beans:prop key="java.lang.Exception">Error</beans:prop>
+			</beans:props>
+		</beans:property>
+	</beans:bean>
+	<!-- Sending mail to the user -->
+	<beans:bean id="mailSender"
+		class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<beans:property name="host" value="smtp.gmail.com" />
+		<beans:property name="port" value="25" />
+		<beans:property name="username" value="peterkirwa@gmail.com" />
+		<beans:property name="password" value="" />
+		<beans:property name="javaMailProperties">
+			<beans:props>
+				<beans:prop key="mail.session.mail.smtp.ssl.enable">true</beans:prop>
+				<beans:prop key="mail.smtp.auth">true</beans:prop>
+				<beans:prop key="mail.smtp.starttls.enable">true</beans:prop>
+				<beans:prop key="mail.smtp.timeout">25000</beans:prop>
+			</beans:props>
+		</beans:property>
+	</beans:bean>
+	<beans:bean id="javaMailSender"
+		class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<beans:property name="host" value="smtp.gmail.com" />
+		<beans:property name="port" value="587" />
+		<beans:property name="username" value="info@bsl.co.ke" />
+		<beans:property name="password" value="bsl@1400" />
+		<beans:property name="javaMailProperties">
+			<beans:props>
+				<beans:prop key="mail.smtp.ssl.trust">smtp.gmail.com</beans:prop>
+				<beans:prop key="mail.smtp.starttls.enable">true</beans:prop>
+				<beans:prop key="mail.smtp.auth">true</beans:prop>
+			</beans:props>
+		</beans:property>
+	</beans:bean>
+
+	<beans:bean id="emailTemplate" class="org.springframework.mail.SimpleMailMessage">
+		<beans:property name="from" value="info@bsl.co.ke" />
+		<beans:property name="to" value="peter.kirwa@bsl.co.ke" />
+		<beans:property name="subject" value="realtime Membership Renewal" />
+		<beans:property name="text">
+			<beans:value>
+		<![CDATA[
+Dear %s,
+
+Your login credentials for  realtime membership  are:
+Username:  %s 
+Password:  %s.
+For Inquiries,  send an e-mail to ict@realtime.co.ke  or Call +2547**.
+
+Regards,
+%s.
+		]]>
+			</beans:value>
+		</beans:property>
+	</beans:bean>
+
+	<beans:bean id="emailContactTemplate" class="org.springframework.mail.SimpleMailMessage">
+		<beans:property name="from" value="info@bsl.co.ke" />
+		<beans:property name="to" value="peter.kirwa@bsl.co.ke" />
+		<beans:property name="subject" value="realtime Membership Contact Form" />
+		<beans:property name="text">
+			<beans:value>
+		<![CDATA[
+Dear %s,
+
+
+ %s.
+
+Regards,
+%s.
+		]]>
+			</beans:value>
+		</beans:property>
+	</beans:bean>
+
+	<!-- Imports user-defined @Controller beans that process client requests -->
+	<beans:import resource="controllers.xml" />
+
+</beans:beans>
