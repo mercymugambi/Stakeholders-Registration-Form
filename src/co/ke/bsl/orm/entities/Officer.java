@@ -104,7 +104,7 @@ public class Officer implements Serializable {
 	private String location;
 	
 	@Column(length = 255)
-	private Date establishedDate;
+	private String establishedDate;
 	
 	@Column(length = 255)
 	private String legalStatus;
@@ -448,19 +448,7 @@ public class Officer implements Serializable {
 		this.location = location;
 	}
 
-	/**
-	 * @return the establishedDate
-	 */
-	public Date getEstablishedDate() {
-		return establishedDate;
-	}
 
-	/**
-	 * @param establishedDate the establishedDate to set
-	 */
-	public void setEstablishedDate(Date establishedDate) {
-		this.establishedDate = establishedDate;
-	}
 
 	/**
 	 * @return the legalStatus
@@ -488,6 +476,20 @@ public class Officer implements Serializable {
 	 */
 	public void setPostalCode(String postalCode) {
 		this.postalCode = postalCode;
+	}
+
+	/**
+	 * @return the establishedDate
+	 */
+	public String getEstablishedDate() {
+		return establishedDate;
+	}
+
+	/**
+	 * @param establishedDate the establishedDate to set
+	 */
+	public void setEstablishedDate(String establishedDate) {
+		this.establishedDate = establishedDate;
 	}
 
 	

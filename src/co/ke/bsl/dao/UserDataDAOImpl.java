@@ -149,6 +149,8 @@ public class UserDataDAOImpl implements UserDataDAO {
 
 	@Override
 	public void addFetchedRegistration(AFAPartner afaRegister) {
+		
+	System.out.println("Adding new officer--------------"+afaRegister.getBuildingName());
 		Officer officer = new Officer();		
 		officer.setFirstname(afaRegister.getFirstName());
 		officer.setMiddlename(afaRegister.getOtherNames());
@@ -171,6 +173,13 @@ public class UserDataDAOImpl implements UserDataDAO {
 		officer.setVillage(afaRegister.getVillage());
 		officer.setLocation(afaRegister.getLocation());
 		officer.setWard(afaRegister.getWard());	
+		officer.setSubCounty(afaRegister.getSubCounty());
+		
+		
+		
+		
+		System.out.println("Adding new officer--------------"+afaRegister.getWard());
+
 		
 		logger.debug("Adding new officer--------------");
 
@@ -286,10 +295,10 @@ public class UserDataDAOImpl implements UserDataDAO {
 	}
 
 	@Override
-	public List<SubCounty> getSubCountyList(String countyID) {
+	public List<SubCounty> getSubCountyList(int countyID) {
 		 SubCounty subCounty =null;
 		 List<SubCounty> subCountyList =new ArrayList<SubCounty>();
-		System.out.println("Adding new  officer---------at the DAO-----");
+		 System.out.println("the county id "+countyID);
 		String sqlI = "SELECT spd_subcounty_id,  name  FROM adempiere.spd_subcounty where spd_county_id="+countyID;
 		Connection conn = null;
 		try {
@@ -320,7 +329,7 @@ public class UserDataDAOImpl implements UserDataDAO {
 	}
 
 	@Override
-	public List<Ward> getWardList(String subCountyID) {
+	public List<Ward> getWardList(int subCountyID) {
 		Ward Ward =null;
 		 List<Ward> WardList =new ArrayList<Ward>();
 		System.out.println("Adding new  officer---------at the DAO-----");

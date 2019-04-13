@@ -15,15 +15,15 @@ taglib
 <!-- <![endif]-->
 <head>
 
-	<style>  
-.errorblock {  
- color: #ff0000;  
- background-color: #ffEEEE;  
- border: 3px solid #ff0000;  
- padding: 8px;  
- margin: 16px;  
-}  
-</style>  
+<style>
+.errorblock {
+	color: #ff0000;
+	background-color: #ffEEEE;
+	border: 3px solid #ff0000;
+	padding: 8px;
+	margin: 16px;
+}
+</style>
 <title>AFA Registration</title>
 
 <!-- Meta -->
@@ -103,13 +103,94 @@ taglib
 <!-- Main Theme Stylesheet :: CSS -->
 <link rel="stylesheet" type="text/css" media="all"
 	href="<s:url value='/resources/common/theme/css/style-default.css?1371698494" '/>" />
-	
+
 <script src='https://www.google.com/recaptcha/api.js'></script>
 
 <!-- LESS.js Library -->
 <script
 	src="<c:url value="/resources/common/theme/scripts/plugins/system/less.min.js" />"></script>
+<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 </head>
+
+
+<script>
+        
+        $(document).ready(
+        function() {
+
+            $('#countyID').change(
+            function() {
+                
+                $.getJSON('loadSubcounty', {
+                	spd_county_id : $(this).val(),
+                    ajax : 'true'
+                }, function(data) {
+                    
+                    var html = '<option value="">----Select Subcounty----</option>';
+                    var len = data.length;
+      
+                    for ( var i = 0; i < len; i++) {
+                        html += '<option value="' + data[i].spd_subcounty_id + '">' + data[i].name + '</option>';
+                    }
+                    html += '</option>';
+   
+                    $('#spd_subcounty_id').html(html);
+                });
+            });
+            
+            $('#spd_subcounty_id').change(
+                    function() {
+                        
+                    	$.getJSON('ward', {
+                    		spd_subcounty_id : $(this).val(),
+                            ajax : 'true'
+                        }, function(data) {
+                            
+                            var html = '<option value="">----Select ward----</option>';
+                            var len = data.length;
+              
+                            for ( var i = 0; i < len; i++) {
+                                html += '<option value="' + data[i].spd_afadivision_id + '">' + data[i].name + '</option>';
+                            }
+                            html += '</option>';
+           
+                            $('#spd_afadivision_id').html(html);
+                        });
+                    });
+            
+        });
+        
+   /*      function() {
+
+            $('#spd_subcounty_id').change(
+            function() {
+                
+                $.getJSON('ward', {
+                	spd_county_id : $(this).val(),
+                    ajax : 'true'
+                }, function(data) {
+                    
+                    var html = '<option value="">----Select ward----</option>';
+                    var len = data.length;
+      
+                    for ( var i = 0; i < len; i++) {
+                        html += '<option value="' + data[i].spd_afadivision_id + '">' + data[i].name + '</option>';
+                    }
+                    html += '</option>';
+   
+                    $('#spd_afadivision_id').html(html);
+                });
+            });
+             */
+        
+      
+        
+    </script>
+
+
+
+
 <body>
 
 	<!-- Main Container Fluid -->
@@ -118,7 +199,7 @@ taglib
 		<!-- Content -->
 		<div id="content">
 
-	
+
 			<!-- Top navbar END -->
 			<div class="container-960 innerT">
 
@@ -127,7 +208,7 @@ taglib
 				<div class="row-fluid">
 
 					<div class="span8">
-					
+
 						<div class="widget widget-heading-simple widget-body-gray">
 							<div class="widget-body">
 								<div class="row-fluid">
@@ -137,117 +218,182 @@ taglib
 											<h5 class="strong text-uppercase">${message}</h5>
 
 										</c:if>
-									<%-- 	<c:if test="${empty message}"> --%>
+										<%-- 	<c:if test="${empty message}"> --%>
 
-											<c:if test="${empty fullUrl}">
-												<sf:form method="post" action="/BriskAFA/register"
-													commandName="accountForm">
+										<c:if test="${empty fullUrl}">
+											<sf:form method="post" action="/BriskAFA/register"
+												commandName="accountForm">
 
-													<div class="register">
+												<div class="register">
 
-													
-														<label class="strong">First Name</label> 	<font color="red"> <sf:errors path="firstName"
-																cssClass="error" /></font> 
-																
-																<font color="black">
-														<sf:input id="firstName"  path="firstName" type="text"
-															class="input-block-level" placeholder="First Name" />
-															</font>
-													
-																
-																
-																<label class="strong">Surname</label><font color="red"> <sf:errors path="surname"
-																cssClass="error" /></font> 
-														<sf:input id="surname" path="surname" type="text"
-															class="input-block-level" placeholder="surname" />
-														
-																
-																<label class="strong">Othernames</label> 	<font color="red"> <sf:errors path="otherNames"
-																cssClass="error" /></font> 
-														<sf:input id="otherNames" path="otherNames" type="text"
-															class="input-block-level" placeholder="Othernames" />
-													
-																
-																<label class="strong">National
-															ID NO</label> 	<font color="red"> <sf:errors path="idNumber"
-																cssClass="error" /></font>
-														<sf:input id="idNumber" path="idNumber" type="number"
-															class="input-block-level" placeholder="national ID NO" />
-													
 
-														<label class="strong">Mobile Phone No<font
-															color="red"></font></label>
-														<sf:input id="phoneNumber" path="phoneNumber" type="telephone"
-															class="input" placeholder="0712345678" />
-															
-														<font color="red"><sf:errors path="phoneNumber"
-																cssClass="error" /></font> </br> 
-																
-																<label class="strong">Email</label>
-														<sf:input path="email" type="text"
-															class="input-block-level"
-															placeholder="Your Valid Email Address" />
-														<font color="red"> <sf:errors path="email"
-																cssClass="error" /></font> 
-												       <label class="strong">Company
-															Name</label>
-														<sf:input id="companyName" path="companyName" type="text"
-															class="input-block-level" placeholder="company Name" />
-														<font color="red"> <sf:errors path="companyName"
-																cssClass="error" /></font> <label class="strong">Company
-															PIN</label>
-														<sf:input id="tAXPIN" path="tAXPIN" type="text"
-															class="input-block-level" placeholder="KRA PIN" />
-														<font color="red"> <sf:errors path="tAXPIN"
-																cssClass="error" /></font> <label class="strong">Company
-															Registration No</label>
-														<sf:input id="companyRegNumber"
-															path="companyRegNumber" type="text"
-															class="input-block-level"
-															placeholder="Company Registration NO" />
-														<font color="red"> <sf:errors
-																path="companyRegNumber" cssClass="error" /></font> <label
-															class="strong">Company Email</label>
-														<sf:input path="companyEmail" type="text"
-															class="input-block-level"
-															placeholder="Company Valid Email Address" />
-														<font color="red"> <sf:errors path="companyEmail"
-																cssClass="error" /></font> <label class="strong">Postal
-															Address</label>
-														<sf:input path="postalAddress" type="text"
-															class="input-block-level" placeholder="Postal Address" />
-														<font color="red"> <sf:errors path="postalAddress"
-																cssClass="error" /></font> <label class="strong">County</label>
-														<sf:input path="county" type="text"
+													<label class="strong">First Name</label> <font color="red">
+														<sf:errors path="firstName" cssClass="error" />
+													</font> <font color="black"> <sf:input id="firstName"
+															path="firstName" type="text" class="input-block-level"
+															placeholder="First Name" />
+													</font> <label class="strong">Surname</label><font color="red">
+														<sf:errors path="surname" cssClass="error" />
+													</font>
+													<sf:input id="surname" path="surname" type="text"
+														class="input-block-level" placeholder="surname" />
+
+
+													<label class="strong">Othernames</label> <font color="red">
+														<sf:errors path="otherNames" cssClass="error" />
+													</font>
+													<sf:input id="otherNames" path="otherNames" type="text"
+														class="input-block-level" placeholder="Othernames" />
+
+
+													<label class="strong">National ID NO</label> <font
+														color="red"> <sf:errors path="idNumber"
+															cssClass="error" /></font>
+													<sf:input id="idNumber" path="idNumber" type="number"
+														class="input-block-level" placeholder="national ID NO" />
+
+
+													<label class="strong">Mobile Phone No<font
+														color="red"></font></label>
+													<sf:input id="phoneNumber" path="phoneNumber"
+														type="telephone" class="input" placeholder="0712345678" />
+
+													<font color="red"><sf:errors path="phoneNumber"
+															cssClass="error" /></font> </br> <label class="strong">Email</label>
+													<sf:input path="email" type="text"
+														class="input-block-level"
+														placeholder="Your Valid Email Address" />
+													<font color="red"> <sf:errors path="email"
+															cssClass="error" /></font> <label class="strong">Company
+														Name</label>
+													<sf:input id="companyName" path="companyName" type="text"
+														class="input-block-level" placeholder="company Name" />
+													<font color="red"> <sf:errors path="companyName"
+															cssClass="error" /></font> <label class="strong">Company
+														PIN</label>
+													<sf:input id="tAXPIN" path="tAXPIN" type="text"
+														class="input-block-level" placeholder="KRA PIN" />
+													<font color="red"> <sf:errors path="tAXPIN"
+															cssClass="error" /></font> <label class="strong">Company
+														Registration No</label>
+													<sf:input id="companyRegNumber" path="companyRegNumber"
+														type="text" class="input-block-level"
+														placeholder="Company Registration NO" />
+													<font color="red"> <sf:errors
+															path="companyRegNumber" cssClass="error" /></font> <label
+														class="strong">Company Email</label>
+													<sf:input path="companyEmail" type="text"
+														class="input-block-level"
+														placeholder="Company Valid Email Address" />
+													<font color="red"> <sf:errors path="companyEmail"
+															cssClass="error" /></font> <label class="strong">Postal
+														Address</label>
+													<sf:input path="postalAddress" type="text"
+														class="input-block-level" placeholder="Postal Address" />
+													<font color="red"> <sf:errors path="postalAddress"
+															cssClass="error" /></font> <label class="strong">Postal
+														Code</label>
+													<sf:input path="postalCode" type="text"
+														class="input-block-level" placeholder="Postal Code" />
+													<font color="red"> <sf:errors path="postalCode"
+															cssClass="error" /></font> <label class="strong">County</label>
+													<%-- 	<sf:input path="county" type="text"
 															class="input-block-level" placeholder="County" />
 														<font color="red"> <sf:errors path="county"
-																cssClass="error" /></font> <label class="strong">Sub
-															County</label>
+																cssClass="error" /></font>  --%>
+
+													<sf:select id="countyID" path="county">
+														<sf:option value="Select County" />
+														<c:forEach items="${countyList}" var="county">
+															<option value="${county.spd_county_id}">${county.name}</option>
+														</c:forEach>
+													</sf:select>
+													<label class="strong">Sub County</label>
+													<sf:select id="spd_subcounty_id" path="subCounty">
+														<sf:option value="Select County" />
+														<label class="strong">Ward</label>
+													</sf:select>
+													<sf:select id="spd_afadivision_id" path="ward">
+														<sf:option value="Select ward" />
+													</sf:select>
+
+
+													<%-- 			<label class="strong">Sub County</label>
 														<sf:input path="subCounty" type="text"
 															class="input-block-level" placeholder="Sub County" />
 														<font color="red"> <sf:errors path="subCounty"
-																cssClass="error" /></font> <label class="strong">Town/City</label>
-														<sf:input path="town" type="text"
-															class="input-block-level" placeholder="Town/ City" />
-														<font color="red"> <sf:errors path="town"
-																cssClass="error" /></font>
+																cssClass="error" /></font> 
+																
+																<label class="strong">ward</label> 
+														<sf:input path="ward" type="text" 
+														class="input-block-level" placeholder="Ward" />
+														<font color="red"> <sf:errors path="ward"
+														cssClass="error" /></font> --%>
 
 
-<div class="g-recaptcha" data-sitekey="6LfFwpkUAAAAAP5ziCkmMum9c8L_naD_F085nHq0"></div>
+
+													<label class="strong">Town/City</label>
+													<sf:input path="town" type="text" class="input-block-level"
+														placeholder="Town/ City" />
+													<font color="red"> <sf:errors path="town"
+															cssClass="error" /></font> <label class="strong">Street
+														Name</label>
+													<sf:input path="streetName" type="text"
+														class="input-block-level" placeholder="Street Name" />
+													<font color="red"> <sf:errors path="streetName"
+															cssClass="error" /></font> <label class="strong">Building
+														Name</label>
+													<sf:input path="buildingName" type="text"
+														class="input-block-level" placeholder="Building Name" />
+													<font color="red"> <sf:errors path="buildingName"
+															cssClass="error" /></font> <label class="strong">Established
+														Date</label>
+													<sf:input path="establishedDate" type="date"
+														class="input-block-level" placeholder="Established Date" />
+													<font color="red"> <sf:errors path="establishedDate"
+															cssClass="error" /></font> <label class="strong">Legal
+														Status</label>
+													<%-- 		<sf:input path="legalStatus" type="text" 
+														class="input-block-level" placeholder="Legal Status" />
+														<font color="red"> <sf:errors path="legalStatus"
+														cssClass="error" /></font> --%>
 
 
-														<%-- <label class="strong">Amount</label>
+
+
+													<sf:select id="combobox" path="legalStatus">
+														<sf:option value="1000001">Private Firm</sf:option>
+														<sf:option value="1000002">Partnerships</sf:option>
+														<sf:option value="1000003">Co-operative society</sf:option>
+														<sf:option value="1000004">Public Company</sf:option>
+
+
+
+													</sf:select>
+													<label class="strong">Village</label>
+													<sf:input path="village" type="text"
+														class="input-block-level" placeholder="Village" />
+													<font color="red"> <sf:errors path="village"
+															cssClass="error" /></font>
+
+
+
+													<div class="g-recaptcha"
+														data-sitekey="6LfFwpkUAAAAAP5ziCkmMum9c8L_naD_F085nHq0"></div>
+
+
+													<%-- <label class="strong">Amount</label>
 														<sf:input path="ttl" type="ttl" class="register-input"
 															placeholder="amount" /> --%>
-														</br> </br> <input type="submit" value="Submit Form"
-															class="register-button">
-													</div>
-												</sf:form>
-											</c:if>
-											
+													</br> </br> <input type="submit" value="Submit Form"
+														class="register-button">
+												</div>
+											</sf:form>
+										</c:if>
 
 
-									<%-- 	</c:if> --%>
+
+										<%-- 	</c:if> --%>
 										<c:if test="${not empty message}">
 											<h5 class="strong text-uppercase">${message}</h5>
 										</c:if>
@@ -265,7 +411,7 @@ taglib
 		</div>
 		<!-- // Content END -->
 
-<%-- 		<jsp:include page="footer.jsp" /> --%>
+		<%-- 		<jsp:include page="footer.jsp" /> --%>
 		<!-- // Footer END -->
 
 	</div>

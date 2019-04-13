@@ -1,7 +1,5 @@
 package co.ke.bsl.model;
 
-import java.util.Date;
-
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
@@ -37,47 +35,7 @@ public class AFAPartner {
 	@NotEmpty
 	private String ward;
 	
-	public String getWard() {
-		return ward;
-	}
-	public void setWard(String ward) {
-		this.ward = ward;
-	}
-	public String getVillage() {
-		return village;
-	}
-	public void setVillage(String village) {
-		this.village = village;
-	}
-	public String getPostalCode() {
-		return postalCode;
-	}
-	public void setPostalCode(String postalCode) {
-		this.postalCode = postalCode;
-	}
-	public String getStreetName() {
-		return streetName;
-	}
-	public void setStreetName(String streetName) {
-		this.streetName = streetName;
-	}
-	public String getBuildingName() {
-		return buildingName;
-	}
-	public void setBuildingName(String buildingName) {
-		this.buildingName = buildingName;
-	}
 	
-	public Date getEstablishedDate() {
-		return establishedDate;
-	}
-	
-	public String getLegalStatus() {
-		return legalStatus;
-	}
-	public void setLegalStatus(String legalStatus) {
-		this.legalStatus = legalStatus;
-	}
 	@NotEmpty
 	private String village;
 	
@@ -106,11 +64,8 @@ public class AFAPartner {
 	private String buildingName;
 	
 	@NotEmpty
-	private Date establishedDate;
+	private String establishedDate;
 	
-	public void setEstablishedDate(Date establishedDate) {
-		this.establishedDate = establishedDate;
-	}
 	@NotEmpty
 	@Size(min = 2, max = 30)
 	private String tAXPIN;
@@ -320,6 +275,90 @@ public class AFAPartner {
 	 */
 	public void setCompanyEmail(String companyEmail) {
 		this.companyEmail = companyEmail;
+	}
+	/**
+	 * @return the ward
+	 */
+	public String getWard() {
+		return ward;
+	}
+	/**
+	 * @param ward the ward to set
+	 */
+	public void setWard(String ward) {
+		this.ward = ward;
+	}
+	/**
+	 * @return the village
+	 */
+	public String getVillage() {
+		return village;
+	}
+	/**
+	 * @param village the village to set
+	 */
+	public void setVillage(String village) {
+		this.village = village;
+	}
+	/**
+	 * @return the postalCode
+	 */
+	public String getPostalCode() {
+		return postalCode;
+	}
+	/**
+	 * @param postalCode the postalCode to set
+	 */
+	public void setPostalCode(String postalCode) {
+		this.postalCode = postalCode;
+	}
+	/**
+	 * @return the streetName
+	 */
+	public String getStreetName() {
+		return streetName;
+	}
+	/**
+	 * @param streetName the streetName to set
+	 */
+	public void setStreetName(String streetName) {
+		this.streetName = streetName;
+	}
+	/**
+	 * @return the buildingName
+	 */
+	public String getBuildingName() {
+		return buildingName;
+	}
+	/**
+	 * @param buildingName the buildingName to set
+	 */
+	public void setBuildingName(String buildingName) {
+		this.buildingName = buildingName;
+	}
+	/**
+	 * @return the establishedDate
+	 */
+	public String getEstablishedDate() {
+		return establishedDate;
+	}
+	/**
+	 * @param establishedDate the establishedDate to set
+	 */
+	public void setEstablishedDate(String establishedDate) {
+		this.establishedDate = establishedDate;
+	}
+	/**
+	 * @return the legalStatus
+	 */
+	public String getLegalStatus() {
+		return legalStatus;
+	}
+	/**
+	 * @param legalStatus the legalStatus to set
+	 */
+	public void setLegalStatus(String legalStatus) {
+		this.legalStatus = legalStatus;
 	}
 	
 	

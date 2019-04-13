@@ -21,9 +21,9 @@ public interface UserDataDAO {
 	
 	public List<County> getCountyList();
 	
-	public List<SubCounty> getSubCountyList(String countyID);
+	public List<SubCounty> getSubCountyList(int countyID);
 	
-	public List<Ward> getWardList(String subCountyID);
+	public List<Ward> getWardList(int subCountyID);
 	
 
 }
