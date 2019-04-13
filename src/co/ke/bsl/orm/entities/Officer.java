@@ -36,10 +36,15 @@ public class Officer implements Serializable {
 	private String lastname;
 
 	
+	@Column
 	private String county;
 
 	@Column
 	private String subCounty;
+
+	@Column
+	private String ward;
+		
 
 	@Column
 	private String village;
@@ -85,9 +90,28 @@ public class Officer implements Serializable {
 	@Column(length = 255)
 	private String companyEmail;
 	
+	
 	@Column(length = 255)
 	private String town;
 
+	@Column(length = 255)
+	private String streetName;
+	
+	@Column(length = 255)
+	private String BuildingName;
+	
+	@Column(length = 255)
+	private String location;
+	
+	@Column(length = 255)
+	private Date establishedDate;
+	
+	@Column(length = 255)
+	private String legalStatus;
+	
+	@Column(length = 255)
+	private String postalCode;
+	
 	/**
 	 * @return the officerID
 	 */
@@ -366,6 +390,104 @@ public class Officer implements Serializable {
 	 */
 	public void setTown(String town) {
 		this.town = town;
+	}
+
+	/**
+	 * @return the ward
+	 */
+	public String getWard() {
+		return ward;
+	}
+
+	/**
+	 * @param ward the ward to set
+	 */
+	public void setWard(String ward) {
+		this.ward = ward;
+	}
+
+	/**
+	 * @return the streetName
+	 */
+	public String getStreetName() {
+		return streetName;
+	}
+
+	/**
+	 * @param streetName the streetName to set
+	 */
+	public void setStreetName(String streetName) {
+		this.streetName = streetName;
+	}
+
+	/**
+	 * @return the buildingName
+	 */
+	public String getBuildingName() {
+		return BuildingName;
+	}
+
+	/**
+	 * @param buildingName the buildingName to set
+	 */
+	public void setBuildingName(String buildingName) {
+		BuildingName = buildingName;
+	}
+
+	/**
+	 * @return the location
+	 */
+	public String getLocation() {
+		return location;
+	}
+
+	/**
+	 * @param location the location to set
+	 */
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
+	/**
+	 * @return the establishedDate
+	 */
+	public Date getEstablishedDate() {
+		return establishedDate;
+	}
+
+	/**
+	 * @param establishedDate the establishedDate to set
+	 */
+	public void setEstablishedDate(Date establishedDate) {
+		this.establishedDate = establishedDate;
+	}
+
+	/**
+	 * @return the legalStatus
+	 */
+	public String getLegalStatus() {
+		return legalStatus;
+	}
+
+	/**
+	 * @param legalStatus the legalStatus to set
+	 */
+	public void setLegalStatus(String legalStatus) {
+		this.legalStatus = legalStatus;
+	}
+
+	/**
+	 * @return the postalCode
+	 */
+	public String getPostalCode() {
+		return postalCode;
+	}
+
+	/**
+	 * @param postalCode the postalCode to set
+	 */
+	public void setPostalCode(String postalCode) {
+		this.postalCode = postalCode;
 	}
 
 	

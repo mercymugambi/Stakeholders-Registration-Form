@@ -149,8 +149,7 @@ public class UserDataDAOImpl implements UserDataDAO {
 
 	@Override
 	public void addFetchedRegistration(AFAPartner afaRegister) {
-		Officer officer = new Officer();
-		
+		Officer officer = new Officer();		
 		officer.setFirstname(afaRegister.getFirstName());
 		officer.setMiddlename(afaRegister.getOtherNames());
 		officer.setLastname(afaRegister.getSurname());
@@ -164,10 +163,16 @@ public class UserDataDAOImpl implements UserDataDAO {
 		officer.setCompanyRegNumber(afaRegister.getCompanyRegNumber());
 		officer.setAddress(afaRegister.getPostalAddress());
 		officer.setTown(afaRegister.getTown());
-	
+		officer.setPostalCode(afaRegister.getPostalCode());
+		officer.setStreetName(afaRegister.getStreetName());
+		officer.setBuildingName(afaRegister.getBuildingName());
+		officer.setEstablishedDate(afaRegister.getEstablishedDate());
+		officer.setLegalStatus(afaRegister.getLegalStatus());
+		officer.setVillage(afaRegister.getVillage());
+		officer.setLocation(afaRegister.getLocation());
+		officer.setWard(afaRegister.getWard());	
 		
-	
-		logger.debug("Adding new  officer--------------");
+		logger.debug("Adding new officer--------------");
 
 		// Retrieve session from Hibernate
 		Session session = sessionFactory.getCurrentSession();

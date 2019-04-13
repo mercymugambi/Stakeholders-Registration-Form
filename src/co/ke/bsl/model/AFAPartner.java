@@ -1,5 +1,7 @@
 package co.ke.bsl.model;
 
+import java.util.Date;
+
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
@@ -32,6 +34,52 @@ public class AFAPartner {
 	@NotEmpty
 	private String subCounty;
 	
+	@NotEmpty
+	private String ward;
+	
+	public String getWard() {
+		return ward;
+	}
+	public void setWard(String ward) {
+		this.ward = ward;
+	}
+	public String getVillage() {
+		return village;
+	}
+	public void setVillage(String village) {
+		this.village = village;
+	}
+	public String getPostalCode() {
+		return postalCode;
+	}
+	public void setPostalCode(String postalCode) {
+		this.postalCode = postalCode;
+	}
+	public String getStreetName() {
+		return streetName;
+	}
+	public void setStreetName(String streetName) {
+		this.streetName = streetName;
+	}
+	public String getBuildingName() {
+		return buildingName;
+	}
+	public void setBuildingName(String buildingName) {
+		this.buildingName = buildingName;
+	}
+	
+	public Date getEstablishedDate() {
+		return establishedDate;
+	}
+	
+	public String getLegalStatus() {
+		return legalStatus;
+	}
+	public void setLegalStatus(String legalStatus) {
+		this.legalStatus = legalStatus;
+	}
+	@NotEmpty
+	private String village;
 	
 	private String location;
 	@NotEmpty
@@ -40,12 +88,29 @@ public class AFAPartner {
 	
 	@NotEmpty
 	@Size(min = 2, max = 50)
+	private String postalCode;
+	
+	
+	@NotEmpty
+	@Size(min = 2, max = 50)
 	private String town;
+	
+	@NotEmpty
+	private String streetName;
 	
 	@NotEmpty
 	@Size(min = 2, max = 100)
 	private String companyName;
 	
+	@NotEmpty
+	private String buildingName;
+	
+	@NotEmpty
+	private Date establishedDate;
+	
+	public void setEstablishedDate(Date establishedDate) {
+		this.establishedDate = establishedDate;
+	}
 	@NotEmpty
 	@Size(min = 2, max = 30)
 	private String tAXPIN;
@@ -61,7 +126,9 @@ public class AFAPartner {
 	
     private String captcha;
     
-
+    @NotEmpty
+	private String legalStatus;
+    
 	/**
 	 * @return the firstName
 	 */
