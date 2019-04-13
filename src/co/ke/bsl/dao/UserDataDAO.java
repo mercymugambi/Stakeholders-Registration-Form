@@ -1,6 +1,11 @@
 package co.ke.bsl.dao;
 
+import java.util.List;
+
 import co.ke.bsl.model.AFAPartner;
+import co.ke.bsl.model.County;
+import co.ke.bsl.model.SubCounty;
+import co.ke.bsl.model.Ward;
 
 public interface UserDataDAO {
 
@@ -13,5 +18,12 @@ public interface UserDataDAO {
 	
 
 	public  void  updateAFAPayment(String merchantRequestID,String checkoutRequestID,String resultCode,String resultDesc);
+	
+	public List<County> getCountyList();
+	
+	public List<SubCounty> getSubCountyList(String countyID);
+	
+	public List<Ward> getWardList(String subCountyID);
+	
 
 }

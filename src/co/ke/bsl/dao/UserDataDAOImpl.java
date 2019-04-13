@@ -7,6 +7,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import javax.sql.DataSource;
@@ -19,6 +22,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import co.ke.bsl.model.AFAPartner;
+import co.ke.bsl.model.County;
+import co.ke.bsl.model.SubCounty;
+import co.ke.bsl.model.Ward;
 import co.ke.bsl.orm.entities.Officer;
 
 /**
@@ -242,6 +248,109 @@ public class UserDataDAOImpl implements UserDataDAO {
 	public void updateAFARegister(AFAPartner afaRegister) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public List<County> getCountyList() {
+		 County county =null;
+		 List<County> countyList =new ArrayList<County>();
+		System.out.println("Adding new  officer---------at the DAO-----");
+		String sqlI = "SELECT spd_county_id,  name  FROM adempiere.spd_county";
+		Connection conn = null;
+		try {
+		
+			conn = dataSource.getConnection();
+			PreparedStatement ps = conn.prepareStatement(sqlI);
+			System.out.println("sql " + sqlI);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				county=new County();
+				county.setName(rs.getString(2));
+				county.setSpd_county_id(rs.getString(1));
+				countyList.add(county);
+				
+			}
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+			throw new RuntimeException(e);
+		} finally {
+			if (conn != null) {
+				try {
+					conn.close();
+					
+				} catch (SQLException e) {
+				}
+			}
+		}
+		return countyList;
+	}
+
+	@Override
+	public List<SubCounty> getSubCountyList(String countyID) {
+		 SubCounty subCounty =null;
+		 List<SubCounty> subCountyList =new ArrayList<SubCounty>();
+		System.out.println("Adding new  officer---------at the DAO-----");
+		String sqlI = "SELECT spd_subcounty_id,  name  FROM adempiere.spd_subcounty where spd_county_id="+countyID;
+		Connection conn = null;
+		try {
+		
+			conn = dataSource.getConnection();
+			PreparedStatement ps = conn.prepareStatement(sqlI);
+			System.out.println("sql " + sqlI);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				subCounty=new SubCounty();
+				subCounty.setName(rs.getString(2));
+				subCounty.setSpd_subcounty_id(rs.getString(1));
+				subCountyList.add(subCounty);
+				
+			}
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+			throw new RuntimeException(e);
+		} finally {
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
+		return subCountyList;
+	}
+
+	@Override
+	public List<Ward> getWardList(String subCountyID) {
+		Ward Ward =null;
+		 List<Ward> WardList =new ArrayList<Ward>();
+		System.out.println("Adding new  officer---------at the DAO-----");
+		String sqlI = "SELECT spd_afadivision_id,  name  FROM adempiere.spd_afadivision where spd_subcounty_id="+subCountyID;
+		Connection conn = null;
+		try {
+		
+			conn = dataSource.getConnection();
+			PreparedStatement ps = conn.prepareStatement(sqlI);
+			System.out.println("sql " + sqlI);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				Ward=new Ward();
+				Ward.setName(rs.getString(2));
+				Ward.setSpd_afadivision_id(rs.getString(1));
+				WardList.add(Ward);
+				
+			}
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+			throw new RuntimeException(e);
+		} finally {
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
+		return WardList;
 	}
 		
 	
