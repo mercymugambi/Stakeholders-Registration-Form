@@ -3,11 +3,16 @@
  */
 package co.ke.bsl.dao;
 
+import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -15,7 +20,16 @@ import org.hibernate.SessionFactory;
 import javax.sql.DataSource;
 
 import org.apache.log4j.Logger;
-import org.hibernate.SessionFactory;
+
+import org.compiere.model.MBPartner;
+import org.compiere.model.MBPartnerLocation;
+import org.compiere.model.MClient;
+import org.compiere.model.MLocation;
+import org.compiere.model.MPasswordRule;
+import org.compiere.model.MUser;
+import org.compiere.model.MUserRoles;
+import org.compiere.util.Env;
+import org.compiere.util.WebUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -26,6 +40,7 @@ import co.ke.bsl.model.County;
 import co.ke.bsl.model.SubCounty;
 import co.ke.bsl.model.Ward;
 import co.ke.bsl.orm.entities.Officer;
+import co.ke.phrm.model.MSPIIdentification;
 
 /**
  * @author kirwa
@@ -149,6 +164,8 @@ public class UserDataDAOImpl implements UserDataDAO {
 
 	@Override
 	public void addFetchedRegistration(AFAPartner afaRegister) {
+		
+	System.out.println("Adding new officer--------------"+afaRegister.getBuildingName());
 		Officer officer = new Officer();		
 		officer.setFirstname(afaRegister.getFirstName());
 		officer.setMiddlename(afaRegister.getOtherNames());
@@ -171,6 +188,13 @@ public class UserDataDAOImpl implements UserDataDAO {
 		officer.setVillage(afaRegister.getVillage());
 		officer.setLocation(afaRegister.getLocation());
 		officer.setWard(afaRegister.getWard());	
+		officer.setSubCounty(afaRegister.getSubCounty());
+		
+		
+		
+		
+		System.out.println("Adding new officer--------------"+afaRegister.getWard());
+
 		
 		logger.debug("Adding new officer--------------");
 
@@ -180,6 +204,145 @@ public class UserDataDAOImpl implements UserDataDAO {
 		// Save
 		session.saveOrUpdate(officer);
 		session.flush();// TODO Auto-generated method stub
+		MSPIIdentification mspiIdentification;
+		
+		MBPartner bpartner;
+		
+		MUser user;
+		MUserRoles userRole;
+		MBPartnerLocation location;
+
+	
+		String newPassword;
+		MPasswordRule pwdrule = MPasswordRule.getRules(Env.getCtx(), null);
+		if (pwdrule != null) {
+			newPassword = pwdrule.generate();
+		} else {
+			SecureRandom random = new SecureRandom();
+			newPassword = BigInteger.probablePrime(50, random).toString(Character.MAX_RADIX);
+		}
+
+		bpartner = new MBPartner(Env.getCtx(), 0, null);
+		bpartner.setName(afaRegister.getCompanyName());
+		bpartner.setValue(afaRegister.getCompanyRegNumber());
+		bpartner.setTaxID(rs.getString("taxpin"));
+
+		/*
+		 * if(rs.getBoolean("isrecruit")==false){
+		 * 
+		 * bpartner.setIsRecruit(false); }
+		 */
+		// bpartner.setIsYouthCommunity(true);
+		bpartner.setIsCustomer(true);
+
+		/// bpartner.setIsDisabled(rs.getBoolean("disabled"));
+		// bpartner.setDocStatus("DR");
+
+		// bpartner.setDOB(rs.getTimestamp("DOB"));
+		bpartner.setC_BP_Group_ID(1000005);
+		bpartner.setAD_Org_ID(Env.getAD_Org_ID(Env.Env.getCtx()));
+		bpartner.setIsActive(true);
+
+		/*
+		 * System.out.println(image.getAD_Image_ID());
+		 * bpartner.setLogo_ID(image.getAD_Image_ID());
+		 */
+		if (bpartner.save()) {
+
+			location = new MBPartnerLocation(Env.getCtx(), 0, null);
+			MLocation mlocation = new MLocation(Env.getCtx(), 0, null);
+			mlocation.setAddress1(rs.getString("address"));
+			mlocation.setC_City_ID(1000003);
+			mlocation.setC_Country_ID(219);
+
+			mlocation.save();
+
+			/*
+			 * buildingname, active, address, approved, companyemail, companyname,
+			 * companyregnumber, county, createdate, email, establisheddate, firstname,
+			 * idno, lastname, legalstatus, location, middlename, mobile, postalcode,
+			 * streetname, subcounty, taxpin, town, txndate, village, ward
+			 */
+
+			location.setpostaladdress(rs.getString("address"));
+			// location.setName(rs.getString("town"));
+			location.setplotno(rs.getString("companyregnumber"));
+			location.setPhone(rs.getString("mobile"));
+			location.setC_BPartner_ID(bpartner.getC_BPartner_ID());
+			location.setIsBillTo(true);
+			location.setIsShipTo(true);
+			location.setC_Location_ID(mlocation.getC_Location_ID());
+			// location.setplotno((rs.getString("taxpin"));
+			location.setpostalcode(Integer.parseInt(rs.getString("postalcode")));
+			location.setcomp_regno(rs.getString("companyregnumber"));
+			location.setSPD_County_ID(Integer.parseInt(rs.getString("county")));
+			location.setSPD_SubCounty_ID(Integer.parseInt(rs.getString("subcounty")));
+			location.setSPD_Afadivision_ID(Integer.parseInt(rs.getString("ward")));
+			location.setroadstreet(rs.getString("streetname"));
+			location.setbuildingname(rs.getString("buildingname"));
+			location.setvillage(rs.getString("village"));
+
+			Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString("establisheddate"));
+			Timestamp ts = new Timestamp(date1.getTime());
+			location.setestablish_date(ts);
+			location.setlegalstatus(rs.getString("legalstatus"));
+
+			location.save();
+
+			System.out.println("After saving the location" + bpartner.getC_BPartner_ID());
+
+			mspiIdentification = new MSPIIdentification(Env.getCtx(), 0, null);
+			mspiIdentification.setidno(rs.getString("idno"));
+			// mspiIdentification.setLogo_ID(fingerPrint.getAD_Image_ID());
+			mspiIdentification.setAD_Org_ID(1000002);
+			mspiIdentification.setC_BPartner_ID(bpartner.getC_BPartner_ID());
+			mspiIdentification.save();
+
+			System.out.println("After saving the identification");
+
+			user = new MUser(Env.getCtx(), 0, null);
+
+			user.setAD_Org_ID(1000000);
+			user.setC_BPartner_ID(bpartner.getC_BPartner_ID());
+			user.setPassword(newPassword);
+			user.setName(rs.getString("lastname") + " " + rs.getString("firstname") + " "
+					+ rs.getString("middlename"));
+			user.setEMail(rs.getString("email"));
+			user.setEMailUser(rs.getString("companyemail"));
+			user.setIsExpired(true);
+			user.setPhone(normalizePhoneNumber(rs.getString("mobile")));
+			user.save();
+
+			userRole = new MUserRoles(Env.getCtx(), 0, null);
+			userRole.setAD_User_ID(user.getAD_User_ID());
+			userRole.setAD_Org_ID(1000000);
+			userRole.setAD_Role_ID(1000001);
+
+			userRole.save();
+
+			System.out.println("After saving the user and org access");
+
+			StringBuffer sb = new StringBuffer();
+
+			String subject = "AFA IMIS User Account";
+
+			sb.append("Dear " + bpartner.getName() + ", " + "<br/> ");
+
+			sb.append(" <br/> ");
+			sb.append("Thank you for registering  at AFA IMIS System, your login details are:- " + " <br/> ");
+			sb.append("Email: " + user.getEMail() + " <br/> ");
+			sb.append("Password: " + user.getPassword() + " <br/> ");
+			sb.append("Link: " + WebUtil.getHostIP() + ":8080/webui/ <br/> ");
+			sb.append("You will be prompted to change your password after login. <br/> ");
+			// sb.append(to + " <br/>; ");
+			sb.append("Regards,  <br/>");
+			sb.append("AFA Admin <br/> ");
+
+			MClient client = new MClient(Env.getCtx(), user.getAD_Client_ID(), null);
+
+			client.sendEMail(user.getEMail(), subject, sb.toString(), null, true);
+			client.sendEMail(user.getEMailUser(), subject, sb.toString(), null, true);
+
 		
 	}
 
@@ -286,10 +449,10 @@ public class UserDataDAOImpl implements UserDataDAO {
 	}
 
 	@Override
-	public List<SubCounty> getSubCountyList(String countyID) {
+	public List<SubCounty> getSubCountyList(int countyID) {
 		 SubCounty subCounty =null;
 		 List<SubCounty> subCountyList =new ArrayList<SubCounty>();
-		System.out.println("Adding new  officer---------at the DAO-----");
+		 System.out.println("the county id "+countyID);
 		String sqlI = "SELECT spd_subcounty_id,  name  FROM adempiere.spd_subcounty where spd_county_id="+countyID;
 		Connection conn = null;
 		try {
@@ -320,7 +483,7 @@ public class UserDataDAOImpl implements UserDataDAO {
 	}
 
 	@Override
-	public List<Ward> getWardList(String subCountyID) {
+	public List<Ward> getWardList(int subCountyID) {
 		Ward Ward =null;
 		 List<Ward> WardList =new ArrayList<Ward>();
 		System.out.println("Adding new  officer---------at the DAO-----");

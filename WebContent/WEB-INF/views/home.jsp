@@ -301,7 +301,26 @@ taglib
 															class="input-block-level" placeholder="Town/ City" />
 														<font color="red"> <sf:errors path="town"
 																cssClass="error" /></font>
-
+																
+													
+															 <sf:input path="postalCode" type="text" 
+															 	class="input-block-level" placeholder="Postal Code" />
+															 	<font color="red"><sf:errors path="postalCode"
+															 		cssClass="error" /></font>
+															 		
+															
+															
+																<sf:input path="ward" type="text" 
+																	class="input-block-level" placeholder="ward" />
+																<font color="red"> <sf:errors path="ward"
+																	cssClass="error" /></font>
+															
+															<label class="strong">streetName</label> <sf:input path="streetName" type="text" class="input-block-level" placeholder="Street Name" /><font color="red"> <sf:errors path="streetName"cssClass="error" /></font>
+															<label class="strong">buildingName</label> <sf:input path="buildingName" type="text" class="input-block-level" placeholder="Building Name" /><font color="red"> <sf:errors path="buildingName"cssClass="error" /></font>
+															<label class="strong">establishedDate</label> <sf:input path="establishedDate" type="text" class="input-block-level" placeholder="Established Date" /><font color="red"> <sf:errors path="establishedDate"cssClass="error" /></font>
+															<label class="strong">legalStatus</label> <sf:input path="LegalStatus" type="text" class="input-block-level" placeholder="Legal Status" /><font color="red"> <sf:errors path="legalStatus"cssClass="error" /></font>
+															<label class="strong">village</label> <sf:input path="village" type="text" class="input-block-level" placeholder="Village" /><font color="red"> <sf:errors path="village"cssClass="error" /></font>
+															
 
 
 														<%-- <label class="strong">Amount</label>
